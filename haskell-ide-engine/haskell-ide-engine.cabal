@@ -1,0 +1,185 @@
+name:                haskell-ide-engine
+version:             0.1.0.0
+synopsis:            Provide a common engine to power any Haskell IDE
+description:         Please see README.md
+homepage:            http://github.com/githubuser/haskell-ide-engine#readme
+license:             BSD3
+license-file:        LICENSE
+author:              Many, TBD when we release
+maintainer:          alan.zimm@gmail.com (for now)
+copyright:           2015 TBD
+category:            Web
+build-type:          Simple
+cabal-version:       >=1.10
+
+flag pedantic
+  Description: Enable -Werror
+  Default:     False
+
+library
+  hs-source-dirs:      src
+  exposed-modules:     Haskell.Ide.Engine.BasePlugin
+                       Haskell.Ide.Engine.Dispatcher
+                       Haskell.Ide.Engine.Options
+                       Haskell.Ide.Engine.Transport.LspStdio
+                       Haskell.Ide.Engine.Transport.JsonStdio
+                       Haskell.Ide.Engine.Types
+  other-modules:       Paths_haskell_ide_engine
+  build-depends:       Cabal >= 1.22
+                     , aeson
+                     , async
+                     , base >= 4.9 && < 5
+                     , bytestring
+                     , containers
+                     , data-default
+                     , directory
+                     , either
+                     , filepath
+                     , ghc >= 8.0.1
+                     , ghc-mod-core
+                     , gitrev >= 1.1
+                     , haskell-lsp
+                     , hie-base
+                     , hie-hare
+                     , hie-ghc-mod
+                     , hie-apply-refact
+                     , hie-plugin-api
+                     , hie-brittany
+                     , hie-hoogle
+                     -- , hie-haddock
+                     , hslogger
+                     , lens >= 4.15.2
+                     , mtl
+                     , optparse-simple >= 0.0.3
+                     , sorted-list == 0.2.0.*
+                     , stm
+                     , text
+                     , unordered-containers
+                     , vector
+                     , yi-rope
+  if impl (ghc < 8.2.1)
+    build-depends:
+                       hie-haddock
+
+  ghc-options:         -Wall -Wredundant-constraints
+  default-language:    Haskell2010
+
+executable hie
+  hs-source-dirs:      app
+  main-is:             MainHie.hs
+  other-modules:       Paths_haskell_ide_engine
+  build-depends:       Cabal >= 1.22
+                     , base
+                     , containers
+                     , directory
+                     , ghc-mod-core
+                     , gitrev >= 1.1
+                     , haskell-ide-engine
+                     , haskell-lsp
+                     , hie-apply-refact
+                     , hie-build-plugin
+                     , hie-eg-plugin-async
+                     , hie-example-plugin2
+                     , hie-ghc-mod
+                     , hie-ghc-tree
+                     , hie-hare
+                     , hie-hoogle
+                     , hie-plugin-api
+                     , hslogger
+                     , optparse-simple
+                     , stm
+                     , text
+                     , time
+                     , transformers
+                     , unordered-containers
+                     , vinyl
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N -Wall -Wredundant-constraints
+  if flag(pedantic)
+     ghc-options:      -Werror
+  default-language:    Haskell2010
+
+test-suite haskell-ide-test
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      test
+  main-is:             Main.hs
+  other-modules:       ApplyRefactPluginSpec
+                       DispatcherSpec
+                       ExamplePluginAsyncSpec
+                       ExtensibleStateSpec
+                       GhcModPluginSpec
+                       GhcTreePluginSpec
+                       HaRePluginSpec
+                       HooglePluginSpec
+                       JsonSpec
+                       Spec
+                       TestUtils
+  build-depends:       Diff
+                     , QuickCheck
+                     , aeson
+                     , base
+                     , containers
+                     , directory
+                     , filepath
+                     , ghc-mod-core
+                     , haskell-lsp
+                     , haskell-ide-engine
+                     , hie-apply-refact
+                     , hie-base
+                     , hie-eg-plugin-async
+                     , hie-ghc-mod
+                     , hie-ghc-tree
+                     , hie-hare
+                     , hie-hoogle
+                     , hie-plugin-api
+                     , hoogle > 5.0.11
+                     , hslogger
+                     , hspec
+                     , quickcheck-instances
+                     , stm
+                     , text
+                     , transformers
+                     , unordered-containers
+                     , vector
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N -Wall -Wredundant-constraints
+  if flag(pedantic)
+     ghc-options:      -Werror
+  default-language:    Haskell2010
+
+test-suite haskell-ide-func-test
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      test
+  main-is:             Functional.hs
+  other-modules:       TestUtils
+  build-depends:       Diff
+                     , QuickCheck
+                     , aeson
+                     , base
+                     , containers
+                     , directory
+                     , filepath
+                     , ghc-mod-core
+                     , haskell-lsp
+                     , haskell-ide-engine
+                     , hie-apply-refact
+                     , hie-base
+                     , hie-eg-plugin-async
+                     , hie-example-plugin2
+                     , hie-ghc-mod
+                     , hie-ghc-tree
+                     , hie-hare
+                     , hie-plugin-api
+                     , hslogger
+                     , hspec
+                     , stm
+                     , text
+                     , transformers
+                     , unordered-containers
+                     , vinyl
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N -Wall -Wredundant-constraints
+  if flag(pedantic)
+     ghc-options:      -Werror
+  default-language:    Haskell2010
+
+source-repository head
+  type:     git
+  location: https://github.com/haskell/haskell-ide-engine

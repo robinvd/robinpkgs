@@ -1,0 +1,16 @@
+packages:
+         ./
+         hie-apply-refact/
+         hie-base/
+         hie-brittany/
+         hie-docs-generator/
+         hie-eg-plugin-async/
+         hie-example-plugin2/
+         hie-ghc-mod/
+         hie-ghc-tree/
+         hie-hare/
+         hie-hoogle/
+         hie-plugin-api/
+         ../haskell-lsp/
+         ../../lspitzner/brittany
+         -- ../ghc-mod/
