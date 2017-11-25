@@ -4,6 +4,7 @@ let
   myCall = pkgs.lib.callPackageWith (pkgs // pkgs.haskellPackages // jobs);
 
   jobs = pkgs.lib.attrsets.mapAttrs (name: value: pkgs.haskell.lib.dontHaddock (pkgs.haskell.lib.dontCheck value)) {
+    # hie and related
     hie-apply-refact = myCall ./haskell-ide-engine/hie-apply-refact/app.nix {};
     hie-base = myCall ./haskell-ide-engine/hie-base/app.nix {};
     hie-brittany = myCall ./haskell-ide-engine/hie-brittany/app.nix {};
@@ -29,8 +30,11 @@ let
     haskell-lsp = myCall ./haskell-ide-engine/extradep/haskell-lsp.nix {};
 
     monad-memo = pkgs.haskellPackages.monad-memo;
-    # dont build in nixpkgs
-    # monad-memo = myCall ./haskell-ide-engine/extradep/monad-memo.nix {};
+
+    # other pkgs
+    halive = pkgs.haskellPackages.halive;
+    twitch-cli = myCall ./twitch-cli.nix {};
+
   };
 in
   jobs
